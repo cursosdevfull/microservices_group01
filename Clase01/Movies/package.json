@@ -4,7 +4,14 @@
   "description": "Microservices of Movies",
   "main": "index.js",
   "scripts": {
-    "lint:code": "eslint src -f stylish"
+    "clean": "rimraf dist",
+    "lint:code": "eslint src -f stylish",
+    "lint:report": "eslint src -f html -o reports/lint.html",
+    "predevelop": "npm run clean && npm run lint:code",
+    "develop": "nodemon src/server",
+    "prebuild": "npm run clean && npm run lint:report",
+    "build": "babel src --out-dir dist --copy-files",
+    "serve": "cross-env NODE_ENV=production node ./dist/server"
   },
   "keywords": [],
   "author": "",

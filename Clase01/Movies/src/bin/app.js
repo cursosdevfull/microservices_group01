@@ -23,3 +23,5 @@ const initializeServer = db => {
       .on('error', error => reject(error))
   })
 }
+
+export { initializeServer }
