@@ -11,7 +11,8 @@
     "develop": "nodemon src/server",
     "prebuild": "npm run clean && npm run lint:report",
     "build": "babel src --out-dir dist --copy-files",
-    "serve": "cross-env NODE_ENV=production node ./dist/server"
+    "serve": "cross-env NODE_ENV=production node ./dist/server",
+    "prod": "npm run build && npm run serve"
   },
   "keywords": [],
   "author": "",

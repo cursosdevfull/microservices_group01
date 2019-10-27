@@ -1,0 +1,9 @@
+#Dockerfile
+
+FROM mongo:latest
+ENV MONGO_INITDB_ROOT_USERNAME=root
+ENV MONGO_INITDB_ROOT_PASSWORD=3lVillano
+
+CMD ["mongod"]
+
+EXPOSE 27017
