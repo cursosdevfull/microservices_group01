@@ -7,7 +7,7 @@ RUN mkdir -p /app && cp -a /tmp/node_modules /app/
 WORKDIR /app
 ADD . /app
 
-EXPOSE 3012
+EXPOSE 3022
 
 RUN npm run build
 

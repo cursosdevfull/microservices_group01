@@ -1,42 +1,84 @@
 import yenv from 'yenv'
+import bcrypt from 'bcrypt'
+import { createToken } from '../utils/token'
 
 const env = yenv()
 
 const repository = db => {
   const collection = db.collection(env.DB.COLLECTION)
 
-  const getAllMovies = async () => {
-    const movies = await collection.find({}, { title: 1 }).toArray()
+  const getUsers = async () => {
+    const users = await collection.find()
 
-    return movies
+    return users
   }
+  const createUser = async (name, email, password) => {
+    const newPassword = await bcrypt.hash(password, 10)
 
-  const getMoviePremiers = async () => {
-    const currencyDate = new Date()
+    const user = new collection({ name, email, newPassword })
+    await user.save()
 
-    const query = {
-      releaseYear: currencyDate.getFullYear(),
-      releaseMonth: currencyDate.getMonth(),
-      releaseDay: currencyDate.getDate(),
+    return true
+  }
+  const updateUser = async (_id, name) => {
+    await collection.findOneAndUpdate({ _id }, { name })
+
+    return true
+  }
+  const getUser = async id => {
+    const user = collection.findOne({ _id: id })
+
+    return user
+  }
+  const deleteUser = async id => {
+    await collection.findOneAndRemove({ _id: id })
+
+    return true
+  }
+  const login = async (email, password) => {
+    const user = collection.findOne({ email })
+
+    if (user) {
+      const match = await bcrypt.compare(password, user.password)
+
+      if (match) {
+        const token = createToken(user._id, user.name)
+        return { token }
+      }
+
+      return false
+    } else {
+      return false
     }
-
-    const movies = await collection.find(query).toArray()
-
-    return movies
   }
+  const validateToken = async token => {
+    const payload = await validateToken(token)
 
-  const getMovieById = async _id => {
-    const movie = await collection.findOne({ _id })
-    console.log(movie)
-
-    return movie
+    return payload
+  }
+  const generateApiKey = async () => {
+    return true
+  }
+  const validateApiKey = async apiKey => {
+    return true
   }
 
   const disconnect = () => {
     db.close()
   }
 
-  return { getAllMovies, getMoviePremiers, getMovieById, disconnect }
+  return {
+    getUsers,
+    getUser,
+    createUser,
+    updateUser,
+    deleteUser,
+    login,
+    validateApiKey,
+    validateToken,
+    generateApiKey,
+    disconnect,
+  }
 }
 
 const connect = connection => {
