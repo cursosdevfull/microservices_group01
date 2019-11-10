@@ -1,5 +1,5 @@
 import express from 'express'
-import { MoviesController } from '../controllers/movies'
+import { UsersController } from '../controllers/users'
 import { connect } from '../repository/index'
 
 const router = express.Router()
@@ -7,11 +7,14 @@ const router = express.Router()
 const routes = db => {
   const repo = connect(db)
 
-  const controller = new MoviesController(repo)
+  const controller = new UsersController(repo)
 
-  router.get('/movies', controller.getAllMovies)
-  router.get('/movies/premiers', controller.getMoviesPremieres)
-  router.get('/movies/:id', controller.getMovieById)
+  // Create user
+  router.post('/', controller.createUser)
+  // Login
+  router.post('/login', controller.login)
+  // Validate token
+  router.get('/validate-token', controller.validateInfoToken)
 
   return router
 }

@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  security:
+    container_name: "security"
+    build: ./Security
+    ports:
+      - "3022:3022"
+    depends_on:
+      - dbsecurity
+    networks:
+      - network-micro
+  dbsecurity:
+    container_name: "dbsecurity"
+    build: ./MongoSecurity
+    ports:
+      - "27018:27018"
+    volumes:
+      - "/MongoSecurity/data/db:/data/db"
+    networks:
+      - network-micro
+
+networks:
+  network-micro:

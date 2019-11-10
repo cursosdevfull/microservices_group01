@@ -29,7 +29,7 @@ rules:
     - allowTemplateLiterals: true
   no-console: 1
   no-dupe-keys: 2
-  no-else-return: 2
+  no-else-return: 1
   no-empty: 2
   no-eq-null: 0
   no-extra-boolean-cast: 2
@@ -37,7 +37,7 @@ rules:
   no-mixed-spaces-and-tabs: 2
   no-param-reassign: 1
   no-redeclare: 2
-  no-underscore-dangle: 2
+  no-underscore-dangle: 1
   no-unreachable: 2
   no-unused-vars: 2
   no-use-before-define: 2

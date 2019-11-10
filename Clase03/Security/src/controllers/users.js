@@ -9,8 +9,6 @@ export class UsersController {
     this.updateUser = this.updateUser.bind(this)
     this.deleteUser = this.deleteUser.bind(this)
     this.login = this.login.bind(this)
-    this.generateApiKey = this.generateApiKey.bind(this)
-    this.validateApiKey = this.validateApiKey.bind(this)
     this.validateInfoToken = this.validateInfoToken.bind(this)
   }
 
@@ -54,7 +52,7 @@ export class UsersController {
   }
 
   async login(req, res) {
-    const resp = await this.repo.login(req.body.username, req.body.password)
+    const resp = await this.repo.login(req.body.email, req.body.password)
 
     if (resp) {
       res.status(200).json({
@@ -69,10 +67,22 @@ export class UsersController {
     }
   }
 
-  async validateInfoToken(req, res, next) {
-    const token = req.headers.authorization.split(' ')[1]
-    const payload = await this.repo.validateInfoToken(token)
+  validateInfoToken(req, res, next) {
+    const token = req.query.token
 
-    next()
+    this.repo
+      .validateInfoToken(token)
+      .then(() => {
+        res.status(200).json({
+          status: 200,
+          message: 'Token valid',
+        })
+      })
+      .catch(() => {
+        res.status(401).json({
+          status: 401,
+          message: 'Token invalid',
+        })
+      })
   }
 }

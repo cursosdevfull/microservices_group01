@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      const apiStatus = {};
+
+      socket.on("status", data => {
+        apiStatus[data.name] = data;
+        displayStatus();
+      });
+
+      const displayStatus = () => {
+        const tbody = document.querySelector("tbody");
+        let rows = "";
+        for (let prop in apiStatus) {
+          const clase =
+            apiStatus[prop].status == "success"
+              ? "table-success"
+              : "table-danger";
+          rows += `
+					<tr class="${clase}">
+						<td>${apiStatus[prop].name}</td>
+						<td>${apiStatus[prop].status}</td>
+					</tr>
+				`;
+        }
+
+        tbody.innerHTML = rows;
+      };
+    </script>
+    <div class="container">
+      <div class="row justify-content-center">
+        <h1>Monitoreo</h1>
+      </div>
+      <div class="row justify-content-center">
+        <table class="table table-bordered col-8">
+          <thead class="thead-dark">
+            <tr>
+              <th>API Name</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

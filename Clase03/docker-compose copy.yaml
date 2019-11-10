@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+  gateway:
+    container_name: "gateway"
+    build: ./Gateway
+    ports:
+      - "3000:3000"
+    depends_on:
+      - movies
+      - security
+    networks:
+      - network-micro
+  movies:
+    container_name: "movies"
+    build: ./Movies
+    ports:
+      - "3012:3012"
+    depends_on:
+      - dbmovies
+    networks:
+      - network-micro
+  security:
+    container_name: "security"
+    build: ./Security
+    ports:
+      - "3022:3022"
+    depends_on:
+      - dbsecurity
+    networks:
+      - network-micro
+  dbmovies:
+    container_name: "dbmovies"
+    build: ./MongoMovie
+    ports:
+      - "27017:27017"
+    volumes:
+      - "/MongoMovie/data/db:/data/db"
+    networks:
+      - network-micro
+  dbsecurity:
+    container_name: "dbsecurity"
+    build: ./MongoSecurity
+    ports:
+      - "27018:27017"
+    volumes:
+      - "/MongoSecurity/data/db:/data/db"
+    networks:
+      - network-micro
+
+networks:
+  network-micro:

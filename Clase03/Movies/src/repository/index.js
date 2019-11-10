@@ -21,7 +21,7 @@ const repository = db => {
       releaseDay: currencyDate.getDate(),
     }
 
-    const movies = await collection.find({}).toArray()
+    const movies = await collection.find(query).toArray()
 
     return movies
   }

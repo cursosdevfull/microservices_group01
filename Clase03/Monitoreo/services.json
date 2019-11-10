@@ -1,0 +1,8 @@
+{
+  "services-development": [
+    { "name": "movies", "url": "http://localhost:3010/movies" }
+  ],
+  "services-production": [
+    { "name": "movies", "url": "http://movies:3012/movies" }
+  ]
+}

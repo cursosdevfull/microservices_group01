@@ -8,6 +8,10 @@ export class MoviesController {
     this.getMovieById = this.getMovieById.bind(this)
   }
 
+  healthCheck(req, res) {
+    res.status(200).send('It is working')
+  }
+
   async getAllMovies(req, res) {
     const movies = await this.repo.getAllMovies()
 

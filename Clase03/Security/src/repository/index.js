@@ -2,6 +2,8 @@ import yenv from 'yenv'
 import bcrypt from 'bcrypt'
 import { createToken, validateToken } from '../utils/token'
 
+const ObjectId = require('mongodb').ObjectID
+
 const env = yenv()
 
 const repository = db => {
@@ -14,14 +16,12 @@ const repository = db => {
   }
   const createUser = async (name, email, password) => {
     const newPassword = await bcrypt.hash(password, 10)
-
-    const user = new collection({ name, email, newPassword })
-    await user.save()
+    await collection.insertOne({ name, email, password: newPassword })
 
     return true
   }
-  const updateUser = async (_id, name) => {
-    await collection.updateOne({ _id: ObjectId(_id) }, { $set: { name } })
+  const updateUser = async (id, name) => {
+    await collection.updateOne({ _id: ObjectId(id) }, { $set: { name } })
 
     return true
   }
@@ -36,7 +36,7 @@ const repository = db => {
     return true
   }
   const login = async (email, password) => {
-    const user = collection.findOne({ email })
+    const user = await collection.findOne({ email })
 
     if (user) {
       const match = await bcrypt.compare(password, user.password)
@@ -44,9 +44,9 @@ const repository = db => {
       if (match) {
         const token = createToken(user._id, user.name)
         return { token }
+      } else {
+        return false
       }
-
-      return false
     } else {
       return false
     }

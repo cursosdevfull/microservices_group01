@@ -11,6 +11,7 @@ const routes = db => {
 
   router.get('/movies', controller.getAllMovies)
   router.get('/movies/premiers', controller.getMoviesPremieres)
+  router.get('/movies/healthcheck', controller.healthCheck)
   router.get('/movies/:id', controller.getMovieById)
 
   return router
