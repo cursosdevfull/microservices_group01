@@ -1,4 +1,5 @@
 import yenv from 'yenv'
+const ObjectId = require('mongodb').ObjectId
 
 const env = yenv()
 
@@ -11,7 +12,7 @@ const repository = db => {
     return movies
   }
 
-  const getMoviePremiers = async () => {
+  const getMoviesPremieres = async () => {
     const currencyDate = new Date()
 
     const query = {
@@ -20,13 +21,13 @@ const repository = db => {
       releaseDay: currencyDate.getDate(),
     }
 
-    const movies = await collection.find(query).toArray()
+    const movies = await collection.find({}).toArray()
 
     return movies
   }
 
   const getMovieById = async _id => {
-    const movie = await collection.findOne({ _id })
+    const movie = await collection.findOne({ _id: ObjectId(_id) })
     console.log(movie)
 
     return movie
@@ -36,7 +37,7 @@ const repository = db => {
     db.close()
   }
 
-  return { getAllMovies, getMoviePremiers, getMovieById, disconnect }
+  return { getAllMovies, getMoviesPremieres, getMovieById, disconnect }
 }
 
 const connect = connection => {
