@@ -1,0 +1,36 @@
+Instalar kubectl
+
+1. Instalar chocolatey
+2. Instalar kubernete-cli
+	choco install kubernete-cli
+
+Instalar Google Cloud
+- Descargar instalador desde Google (SDK)
+- Alternativa para instalar kubectl: gcloud components install kubectl
+
+Loguearse en GCP
+gcloud container clusters <<nombre del cluster>> --zone <<zona de creación del cluster>>
+
+Para saber la versión
+kubectl version
+
+Para ejecutar un yaml pod
+kubectl apply -f kbs/simple01-pod.yaml
+
+Para listar los pods existentes
+kubectl get pods
+
+Para obtener información de un pod
+kubectl describe pod simple01-pod
+
+Para listar los procesadores virtuales
+kubectl get nodes
+
+Para listar los deployments existentes
+kubectl get deployments
+
+Para eliminar un pod
+kubectl delete pod simple01-deployment-d6b6c964b-4l25k
+
+Para listar los servicios
+kubectl get svc
