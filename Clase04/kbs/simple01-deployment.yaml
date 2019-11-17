@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple01-deployment
+  labels:
+    app: simple01
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: simple01
+  template:
+    metadata:
+      labels:
+        app: simple01
+    spec:
+      containers:
+        - name: simple01
+          image: us.gcr.io/cursomicroservicios/simple01@sha256:15625e98c555c476db169abfeabdac994170ac4e82800d9bc5dd94f3a26a633d
+          ports:
+            - containerPort: 5000

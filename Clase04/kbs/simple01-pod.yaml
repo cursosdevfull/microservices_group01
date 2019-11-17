@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple01-pod
+  labels:
+    app: simple01
+spec:
+  containers:
+    - name: simple01
+      image: us.gcr.io/cursomicroservicios/simple01@sha256:15625e98c555c476db169abfeabdac994170ac4e82800d9bc5dd94f3a26a633d
+      ports:
+        - containerPort: 5000
